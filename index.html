@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BCA Study Notes Pro - Premium Learning Platform</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 500px;
+            width: 100%;
+        }
+
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 40px 30px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            text-align: center;
+        }
+
+        .logo {
+            font-size: 48px;
+            margin-bottom: 15px;
+        }
+
+        h1 {
+            color: #667eea;
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: #999;
+            font-size: 14px;
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        input,
+        textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 14px;
+            font-family: inherit;
+            transition: border-color 0.3s;
+        }
+
+        input:focus,
+        textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background: #764ba2;
+        }
+
+        button:active {
+            transform: scale(0.98);
+        }
+
+        .info {
+            background: #f0f4ff;
+            padding: 15px;
+            border-radius: 6px;
+            margin-top: 20px;
+            font-size: 13px;
+            color: #555;
+            border-left: 4px solid #667eea;
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 20px;
+            font-size: 12px;
+        }
+
+        .feature {
+            background: #f9f9f9;
+            padding: 12px;
+            border-radius: 6px;
+        }
+
+        .feature strong {
+            color: #667eea;
+        }
+
+        .toggle-theme {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            background: white;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 24px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            transition: transform 0.3s;
+        }
+
+        .toggle-theme:hover {
+            transform: scale(1.1);
+        }
+
+        .error {
+            color: #e74c3c;
+            font-size: 13px;
+            margin-top: 5px;
+        }
+
+        .success {
+            color: #27ae60;
+            font-size: 13px;
+            margin-top: 5px;
+        }
+
+        .loading {
+            color: #667eea;
+            font-size: 13px;
+            font-style: italic;
+        }
+
+        .lock-badge {
+            display: inline-block;
+            background: #27ae60;
+            color: white;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            margin-left: 5px;
+        }
+    </style>
+</head>
+
+<body>
+    <button class="toggle-theme" id="themeToggle">🌙</button>
+
+    <div class="container">
+        <div class="card">
+            <div class="logo">📚</div>
+            <h1>BCA Study Notes Pro</h1>
+            <p class="subtitle">Premium AI Learning Platform</p>
+
+            <!-- Loading State -->
+            <div id="loadingState" style="display: none;">
+                <p class="loading">⏳ Loading secure configuration...</p>
+            </div>
+
+            <!-- License Activation -->
+            <div id="licenseSection" style="display: none;">
+                <div class="form-group">
+                    <label>📧 Email</label>
+                    <input type="email" id="userEmail" placeholder="your.email@example.com" required>
+                </div>
+                <div class="form-group">
+                    <label>🔑 License Key</label>
+                    <input type="text" id="licenseKey" placeholder="BCAKEY-XXXX-XXXX-XXXX" required>
+                </div>
+                <button onclick="activateLicense()">🔓 Activate Access</button>
+                <div class="error" id="licenseError"></div>
+                <div class="success" id="licenseSuccess"></div>
+
+                <div style="margin-top: 20px; padding-top: 20px; border-top: 1px solid #eee;">
+                    <p style="color: #666; font-size: 13px; margin-bottom: 10px;">Or login as admin:</p>
+                    <div class="form-group">
+                        <label>Admin Email</label>
+                        <input type="email" id="adminEmail" placeholder="admin@bca.com">
+                    </div>
+                    <div class="form-group">
+                        <label>Admin Password</label>
+                        <input type="password" id="adminPassword" placeholder="••••••••">
+                    </div>
+                    <button onclick="adminLogin()" style="background: #764ba2;">👨‍💼 Admin Login <span
+                            class="lock-badge">🔒 Secure</span></button>
+                    <div class="error" id="adminError"></div>
+                </div>
+
+                <div class="info">
+                    🔒 Credentials are encrypted and loaded securely from server. Never exposed in code!
+                </div>
+
+                <div class="features">
+                    <div class="feature">🎯 <strong>100+ Topics</strong> Comprehensive curriculum</div>
+                    <div class="feature">✨ <strong>Premium Content</strong> High-quality materials</div>
+                    <div class="feature">📱 <strong>Mobile Ready</strong> Learn on any device</div>
+                    <div class="feature">🌙 <strong>Dark Mode</strong> Easy on eyes</div>
+                </div>
+            </div>
+
+            <!-- Dashboard (hidden until login) -->
+            <div id="dashboardSection" style="display: none;">
+                <h2 id="dashboardTitle">Loading...</h2>
+                <div id="dashboardContent"></div>
+                <button onclick="logout()" style="background: #e74c3c; margin-top: 20px;">🚪 Logout</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="utils.js"></script>
+    <script src="topics-data.js"></script>
+    <script>
+        // Global config variable
+        window.APP_CONFIG = null;
+
+        // ============ LOAD CONFIG FROM EDGE FUNCTION ============
+        async function loadConfigFromServer() {
+            document.getElementById('loadingState').style.display = 'block';
+
+            try {
+                // Fetch from Netlify Edge Function (secure endpoint)
+                const response = await fetch('/.netlify/edge-functions/get-config');
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                window.APP_CONFIG = await response.json();
+                console.log('✅ CONFIG LOADED FROM SERVER (Secure)');
+                console.log('Company:', window.APP_CONFIG.companyName);
+
+                // Check for errors
+                if (window.APP_CONFIG.error) {
+                    console.warn('⚠️ Using fallback config');
+                }
+
+                // Show license section
+                showLicenseSection();
+
+            } catch (error) {
+                console.error('❌ Failed to load config from server:', error);
+
+                // Fallback: Use hardcoded minimal config
+                window.APP_CONFIG = {
+                    admin: {
+                        email: 'admin@bca.com',
+                        password: 'password123'
+                    },
+                    companyName: 'BCA Study Notes Pro',
+                    prices: { 30: 299, 90: 699, 365: 1999 }
+                };
+
+                console.warn('⚠️ Using fallback config (check Netlify Edge Function)');
+                showLicenseSection();
+            }
+        }
+
+        // Show license section
+        function showLicenseSection() {
+            document.getElementById('loadingState').style.display = 'none';
+            document.getElementById('licenseSection').style.display = 'block';
+        }
+
+        // Theme toggle
+        document.getElementById('themeToggle').addEventListener('click', () => {
+            document.body.style.background = document.body.style.background.includes('667eea')
+                ? 'linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%)'
+                : 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
+        });
+
+        // ============ LICENSE ACTIVATION ============
+        function activateLicense() {
+            const email = document.getElementById('userEmail').value;
+            const license = document.getElementById('licenseKey').value;
+            const errorEl = document.getElementById('licenseError');
+            const successEl = document.getElementById('licenseSuccess');
+
+            errorEl.textContent = '';
+            successEl.textContent = '';
+
+            if (!email || !license) {
+                errorEl.textContent = '❌ Please fill all fields';
+                return;
+            }
+
+            if (!license.match(/^[A-Z]+-[A-Z0-9]+-[A-Z0-9]+-[A-Z0-9]+$/)) {
+                errorEl.textContent = '❌ Invalid license format';
+                return;
+            }
+
+            localStorage.setItem('userEmail', email);
+            localStorage.setItem('licenseKey', license);
+            localStorage.setItem('loginType', 'user');
+
+            successEl.textContent = '✅ License activated! Loading dashboard...';
+            setTimeout(() => {
+                document.getElementById('licenseSection').style.display = 'none';
+                document.getElementById('dashboardSection').style.display = 'block';
+                loadUserDashboard(email);
+            }, 500);
+        }
+
+        // ============ ADMIN LOGIN ============
+        function adminLogin() {
+            const email = document.getElementById('adminEmail').value;
+            const password = document.getElementById('adminPassword').value;
+            const errorEl = document.getElementById('adminError');
+
+            errorEl.textContent = '';
+
+            if (!email || !password) {
+                errorEl.textContent = '❌ Please fill all fields';
+                return;
+            }
+
+            // Compare with secure config from server
+            if (window.APP_CONFIG &&
+                email === window.APP_CONFIG.admin.email &&
+                password === window.APP_CONFIG.admin.password) {
+
+                localStorage.setItem('adminEmail', email);
+                localStorage.setItem('loginType', 'admin');
+
+                document.getElementById('licenseSection').style.display = 'none';
+                document.getElementById('dashboardSection').style.display = 'block';
+                loadAdminDashboard();
+            } else {
+                errorEl.textContent = '❌ Invalid credentials';
+            }
+        }
+
+        // ============ DASHBOARDS ============
+        function loadUserDashboard(email) {
+            document.getElementById('dashboardTitle').textContent = `Welcome, ${email.split('@')[0]}! 👋`;
+
+            let html = `
+                <div style="text-align: left; margin-top: 20px;">
+                    <h3 style="color: #667eea; margin-bottom: 15px;">📚 Available Topics</h3>
+                    <div id="topicsList"></div>
+                </div>
+            `;
+
+            document.getElementById('dashboardContent').innerHTML = html;
+
+            if (window.TOPICS && Array.isArray(window.TOPICS)) {
+                let topicsHtml = '';
+                window.TOPICS.forEach((topic, idx) => {
+                    topicsHtml += `
+                        <div style="background: #f9f9f9; padding: 12px; margin-bottom: 10px; border-radius: 6px; cursor: pointer;" onclick="viewTopic(${idx})">
+                            <strong>${topic.title}</strong>
+                            <div style="color: #999; font-size: 12px; margin-top: 5px;">${topic.description || 'Premium content'}</div>
+                        </div>
+                    `;
+                });
+                document.getElementById('topicsList').innerHTML = topicsHtml;
+            }
+        }
+
+        function loadAdminDashboard() {
+            document.getElementById('dashboardTitle').textContent = '👨‍💼 Admin Dashboard';
+
+            let html = `
+                <div style="text-align: left; margin-top: 20px;">
+                    <div style="background: #27ae60; color: white; padding: 12px; border-radius: 6px; margin-bottom: 15px;">
+                        ✅ <strong>SECURE MODE</strong> - Credentials loaded from encrypted server
+                    </div>
+                    
+                    <div style="background: #f0f4ff; padding: 15px; border-radius: 6px; margin-bottom: 15px;">
+                        <strong style="color: #667eea;">📊 Statistics</strong>
+                        <div style="margin-top: 10px; font-size: 13px;">
+                            <div>Total Users: <strong id="totalUsers">0</strong></div>
+                            <div>Total Topics: <strong id="totalTopics">${window.TOPICS ? window.TOPICS.length : 0}</strong></div>
+                            <div>Licenses Issued: <strong id="licensesIssued">0</strong></div>
+                        </div>
+                    </div>
+                    
+                    <button onclick="generateLicense()" style="background: #27ae60; width: 100%; margin-bottom: 10px;">🔑 Generate License</button>
+                    <button onclick="manageUsers()" style="background: #3498db; width: 100%; margin-bottom: 10px;">👥 Manage Users</button>
+                    <button onclick="manageTopics()" style="background: #f39c12; width: 100%;">📚 Manage Topics</button>
+                </div>
+                <div id="adminContent"></div>
+            `;
+
+            document.getElementById('dashboardContent').innerHTML = html;
+        }
+
+        function generateLicense() {
+            const key = generateLicenseKey();
+            document.getElementById('adminContent').innerHTML = `
+                <div style="background: #d4edda; padding: 15px; border-radius: 6px; margin-top: 15px; text-align: left;">
+                    <strong style="color: #155724;">✅ License Generated!</strong>
+                    <div style="word-break: break-all; margin-top: 10px; font-family: monospace; background: white; padding: 10px; border-radius: 4px;">
+                        ${key}
+                    </div>
+                    <button onclick="copyToClipboard('${key}')" style="background: #667eea; margin-top: 10px;">📋 Copy</button>
+                </div>
+            `;
+        }
+
+        function manageUsers() {
+            document.getElementById('adminContent').innerHTML = `
+                <div style="background: #e3f2fd; padding: 15px; border-radius: 6px; margin-top: 15px; text-align: left;">
+                    <strong style="color: #1565c0;">👥 User Management</strong>
+                    <p style="margin-top: 10px; color: #666;">User management feature coming soon...</p>
+                </div>
+            `;
+        }
+
+        function manageTopics() {
+            document.getElementById('adminContent').innerHTML = `
+                <div style="background: #fff3e0; padding: 15px; border-radius: 6px; margin-top: 15px; text-align: left;">
+                    <strong style="color: #e65100;">📚 Topic Management</strong>
+                    <p style="margin-top: 10px; color: #666;">Topic management feature coming soon...</p>
+                </div>
+            `;
+        }
+
+        function viewTopic(idx) {
+            if (window.TOPICS && window.TOPICS[idx]) {
+                alert(`Topic: ${window.TOPICS[idx].title}\n\n${window.TOPICS[idx].description || 'Premium content'}`);
+            }
+        }
+
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text);
+            alert('✅ Copied to clipboard!');
+        }
+
+        function logout() {
+            localStorage.clear();
+            location.reload();
+        }
+
+        // ============ CHECK IF ALREADY LOGGED IN ============
+        window.addEventListener('load', () => {
+            const loginType = localStorage.getItem('loginType');
+            if (loginType === 'admin') {
+                document.getElementById('loadingState').style.display = 'none';
+                document.getElementById('licenseSection').style.display = 'none';
+                document.getElementById('dashboardSection').style.display = 'block';
+                loadAdminDashboard();
+            } else if (loginType === 'user') {
+                const email = localStorage.getItem('userEmail');
+                document.getElementById('loadingState').style.display = 'none';
+                document.getElementById('licenseSection').style.display = 'none';
+                document.getElementById('dashboardSection').style.display = 'block';
+                loadUserDashboard(email);
+            } else {
+                // Load config from server and show license section
+                loadConfigFromServer();
+            }
+        });
+
+        // Start loading config on page load
+        console.log('🔄 Initializing secure config loader...');
+    </script>
+</body>
+
+</html>

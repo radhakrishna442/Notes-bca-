@@ -1,0 +1,34 @@
+[build]
+  # No build command needed for static site
+  command = "echo 'Static site - no build required'"
+  publish = "."
+
+# Environment variables - Set these in Netlify UI or here
+[build.environment]
+  ADMIN_EMAIL = "admin@bca.com"
+  ADMIN_PASSWORD = "MNPP9987#@"
+  COMPANY_NAME = "BCA Study Notes Pro"
+  COMPANY_EMAIL = "notesbabatechsppt@gmail.com"
+  COMPANY_PHONE = "+91-7417276318"
+
+# Redirect for single page app
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+# Headers for security
+[[headers]]
+  for = "/"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-Content-Type-Options = "nosniff"
+    X-XSS-Protection = "1; mode=block"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "geolocation=(), microphone=(), camera=()"
+    Cache-Control = "public, max-age=3600"
+
+# Edge function configuration
+[[edge_functions]]
+  path = "/.netlify/edge-functions/get-config"
+  function = "get-config"
