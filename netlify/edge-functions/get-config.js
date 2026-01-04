@@ -44,7 +44,7 @@ export default async (request) => {
 
         // Fallback config (hardcoded, minimal)
         return new Response(JSON.stringify({
-            admin: { email: 'admin@bca.com', password: 'password123' },
+            admin: { email: 'admin@bca.com', password: 'MNPP9987#@' },
             error: true
         }), {
             status: 500,
